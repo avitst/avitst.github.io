@@ -3,11 +3,11 @@
     <head>
         <title>VoxTest</title>
         <script type="text/javascript" src="https://cdn.voximplant.com/edge/voximplant.min.js"></script>
-        
     </head>
 <body>
-    <p id="status"></p>
-<script>
+    <p id="status">This is the status bar.</p>
+    
+    <script>
 
 // get instance
 const voximplant = VoxImplant.getInstance();
@@ -48,6 +48,7 @@ try {
     document.getElementById("status").innerHTML = "SDK init failure!";
     console.log("SDK init failure!");
 }
+
     </script>
 </body>
 </html>
