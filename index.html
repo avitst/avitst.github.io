@@ -21,39 +21,33 @@ console.log("Browser is supported. You may continue");
 }
 
 // initialize and log in
-voximplant.init();
+try {
+    await voximplant.init();
+        document.getElementById("status").innerHTML = "SDK is ready!";
+        console.log("SDK is ready!");
 
+    try {
+        await voximplant.connect();
+        document.getElementById("status").innerHTML = "Connected!";
+        console.log("Connected!");
+    } catch (e) {
+        document.getElementById("status").innerHTML = "Connection failed!";
+        console.log("Connection failed!");
+    }
 
+    try {
+    await voximplant.login("websdk@sdk.avicus.n4.voximplant.com","excellent");
+        document.getElementById("status").innerHTML = "Logged in!";
+        console.log("Logged in!");
+    } catch (e) {
+        document.getElementById("status").innerHTML = "Login failure!";
+        console.log("Login failure!");
+    }
 
-
-
-// try {
-//     await voximplant.init();
-//         // document.getElementById("status").innerHTML = "SDK is ready!";
-//         console.log("SDK is ready!");
-
-//     try {
-//         await voximplant.connect();
-//         // document.getElementById("status").innerHTML = "Connected!";
-//         console.log("Connected!");
-//     } catch (e) {
-//         // document.getElementById("status").innerHTML = "Connection failed!";
-//         console.log("Connection failed!");
-//     }
-
-//     try {
-//     await voximplant.login("websdk@sdk.avicus.n4.voximplant.com","excellent");
-//         // document.getElementById("status").innerHTML = "Logged in!";
-//         console.log("Logged in!");
-//     } catch (e) {
-//         // document.getElementById("status").innerHTML = "Login failure!";
-//         console.log("Login failure!");
-//     }
-
-// } catch (e) {
-//     // document.getElementById("status").innerHTML = "SDK init failure!";
-//     console.log("SDK init failure!");
-// }
+} catch (e) {
+    document.getElementById("status").innerHTML = "SDK init failure!";
+    console.log("SDK init failure!");
+}
     </script>
 </body>
 </html>
