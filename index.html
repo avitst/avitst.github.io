@@ -2,14 +2,19 @@
 <html>
     <head>
         <title>VoxTest</title>
-        <script type="text/javascript" src="https://cdn.voximplant.com/edge/voximplant.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/voximplant-websdk@beta"></script>
     </head>
 <body>
     <p id="status">This is the status bar.</p>
     <input id="number" type="text" value="+79952340701">
     <br>
     <button id="startcall" onclick="startcall()">Call</button> 
-    <button id="endcall" style="display: none;">End call</button> 
+    <button id="endcall" style="display: none;">End call</button>
+    <br>
+    <div id="incoming" style="display: none;">
+        <button id="answer">Answer</button>
+        <button id="decline">Decline</button>
+    </div>
 
     <script>
 // get instance
@@ -73,6 +78,42 @@ const startcall = () => {
         document.getElementById("status").innerHTML = "Call failed!";
     });
 };
+
+// process an incoming call
+
+sdk.on(VoxImplant.Events.IncomingCall, (e) => {
+    document.getElementById("incoming").style.display = "block";
+    document.getElementById("startcall").style.display = "none";
+    document.getElementById("status").innerHTML = "Incoming call!";
+
+    document.getElementById("answer").onclick = () => {
+        document.getElementById("incoming").style.display = "none";
+        e.call.answer();
+    };
+
+    document.getElementById("decline").onclick = () => {
+        document.getElementById("incoming").style.display = "none";
+        e.call.decline();
+    };
+
+    e.call.addEventListener(VoxImplant.CallEvents.Connected, () => {
+        document.getElementById("status").innerHTML = "Call connected!";
+        document.getElementById("endcall").style.display = "block";
+        document.getElementById("endcall").onclick = () => {
+            e.call.hangup();
+        };
+    });
+
+    e.call.addEventListener(VoxImplant.CallEvents.Disconnected, () => {
+        document.getElementById("status").innerHTML = "Call disconnected!";
+        document.getElementById("startcall").style.display = "block";
+        document.getElementById("endcall").style.display = "none";
+    });
+
+    e.call.addEventListener(VoxImplant.CallEvents.Failed, (e) => {
+        document.getElementById("status").innerHTML = "Call failed!";
+    });
+});
 
     </script>
 </body>
