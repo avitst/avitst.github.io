@@ -6,48 +6,49 @@
     </head>
 <body>
     <p id="status">This is the status bar.</p>
-    
+    <input id="number" type="text" value="+79952340701">
+    <button onclick="startcall()">Call</button>
+
     <script>
-
 // get instance
-const voximplant = VoxImplant.getInstance();
-
-// check if browser is supported
-const isSupported = voximplant.isRTCsupported();
-if(isSupported) {
-console.log("Browser is supported. You may continue");
-} else {
-  console.log("Browser is not supported. You shall not pass!");
-}
+const sdk = VoxImplant.getInstance();
 
 // initialize and log in
-try {
-    await voximplant.init();
-        document.getElementById("status").innerHTML = "SDK is ready!";
-        console.log("SDK is ready!");
-
+const login = async () => {
     try {
-        await voximplant.connect();
-        document.getElementById("status").innerHTML = "Connected!";
-        console.log("Connected!");
+        await sdk.init();
+            document.getElementById("status").innerHTML = "SDK is ready!";
+        try {
+            await sdk.connect();
+            document.getElementById("status").innerHTML = "Connected!";
+        } catch (e) {
+            document.getElementById("status").innerHTML = "Connection failed!";
+        }
+        try {
+        await sdk.login("avi@ios.avicus.n4.voximplant.com","excellent");
+            document.getElementById("status").innerHTML = "Logged in!";
+        } catch (e) {
+            document.getElementById("status").innerHTML = "Login failure!";
+        }
     } catch (e) {
-        document.getElementById("status").innerHTML = "Connection failed!";
-        console.log("Connection failed!");
+        document.getElementById("status").innerHTML = "SDK init failure!";
     }
+};
 
-    try {
-    await voximplant.login("websdk@sdk.avicus.n4.voximplant.com","excellent");
-        document.getElementById("status").innerHTML = "Logged in!";
-        console.log("Logged in!");
-    } catch (e) {
-        document.getElementById("status").innerHTML = "Login failure!";
-        console.log("Login failure!");
-    }
+login();
 
-} catch (e) {
-    document.getElementById("status").innerHTML = "SDK init failure!";
-    console.log("SDK init failure!");
-}
+// make a call
+
+const startcall = () => {
+    const callSettings = {
+        number: document.getElementById("number").value,
+        videoFlags: {
+            sendVideo: false,
+            receiveVideo: false
+        }
+    };
+    const call = sdk.call(callSettings);
+};
 
     </script>
 </body>
