@@ -21,7 +21,7 @@
     <div id="localvideo" style="display: none;"></div>
 
     <script>
-        
+
 // get instance
 const sdk = VoxImplant.getInstance();
 
@@ -185,7 +185,7 @@ streamManager.on(VoxImplant.Hardware.HardwareEvents.MediaRendererRemoved, (e) =>
     //
 });
 streamManager.on(VoxImplant.Hardware.HardwareEvents.MediaRendererAdded, (e) => {
-    let localNode = document.getElementById('local_ui');
+    let localNode = document.getElementById('localvideo');
     e.renderer.render(localNode);
 });
 streamManager.on(VoxImplant.Hardware.HardwareEvents.MediaRendererUpdated, (e) => {
