@@ -17,10 +17,11 @@
         <button id="decline">Decline</button>
     </div>
     <br>
-    <div id="remotevideo"></div>
-    <div id="localvideo"></div>
+    <div id="remotevideo" style="display: none;"></div>
+    <div id="localvideo" style="display: none;"></div>
 
     <script>
+        
 // get instance
 const sdk = VoxImplant.getInstance();
 
@@ -68,19 +69,43 @@ const startcall = () => {
 
     document.getElementById("startcall").style.display = "none";
     document.getElementById("status").innerHTML = "Calling!";
+
     // subscribe to the events
     call.addEventListener(VoxImplant.CallEvents.Connected, () => {
         document.getElementById("status").innerHTML = "Call connected!";
         document.getElementById("endcall").style.display = "block";
+        document.getElementById("remotevideo").style.display = "block";
+        document.getElementById("localvideo").style.display = "block";
         document.getElementById("endcall").onclick = () => {
             call.hangup();
+            document.getElementById("remotevideo").style.display = "none";
+            document.getElementById("localvideo").style.display = "none";
         };
+
+        // show remote video
+
+        e.call.on(VoxImplant.CallEvents.EndpointAdded, (e) => {
+            // const tmpl = `<div id="${e.endpoint.id}"></div>`;
+            // document.insertAdjacentHTML('beforeend', tmpl);
+
+            e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaAdded, (e) => {
+                const container = document.getElementById("remotevideo");
+                e.mediaRenderer.render(container);
+            });
+            e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaRemoved, (e) => {
+                //
+            });
+        });
+        e.endpoint.on(VoxImplant.EndpointEvents.Removed, (e) => {});
+
     });
 
     call.addEventListener(VoxImplant.CallEvents.Disconnected, () => {
         document.getElementById("status").innerHTML = "Call disconnected!";
         document.getElementById("startcall").style.display = "block";
         document.getElementById("endcall").style.display = "none";
+        document.getElementById("remotevideo").style.display = "none";
+        document.getElementById("localvideo").style.display = "none";
     });
 
     call.addEventListener(VoxImplant.CallEvents.Failed, (e) => {
@@ -97,8 +122,10 @@ sdk.on(VoxImplant.Events.IncomingCall, (e) => {
     document.getElementById("status").innerHTML = "Incoming call!";
 
     document.getElementById("answer").onclick = () => {
-        document.getElementById("incoming").style.display = "none";
         e.call.answer(callSettings);
+        document.getElementById("incoming").style.display = "none";
+        document.getElementById("remotevideo").style.display = "block";
+        document.getElementById("localvideo").style.display = "block";
     };
 
     document.getElementById("decline").onclick = () => {
@@ -111,13 +138,34 @@ sdk.on(VoxImplant.Events.IncomingCall, (e) => {
         document.getElementById("endcall").style.display = "block";
         document.getElementById("endcall").onclick = () => {
             e.call.hangup();
+            document.getElementById("remotevideo").style.display = "none";
+            document.getElementById("localvideo").style.display = "none";
         };
+
+        // show remote video
+
+        e.call.on(VoxImplant.CallEvents.EndpointAdded, (e) => {
+            // const tmpl = `<div id="${e.endpoint.id}"></div>`;
+            // document.insertAdjacentHTML('beforeend', tmpl);
+
+            e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaAdded, (e) => {
+                const container = document.getElementById("remotevideo");
+                e.mediaRenderer.render(container);
+            });
+            e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaRemoved, (e) => {
+                //
+            });
+        });
+        e.endpoint.on(VoxImplant.EndpointEvents.Removed, (e) => {});
+
     });
 
     e.call.addEventListener(VoxImplant.CallEvents.Disconnected, () => {
         document.getElementById("status").innerHTML = "Call disconnected!";
         document.getElementById("startcall").style.display = "block";
         document.getElementById("endcall").style.display = "none";
+        document.getElementById("remotevideo").style.display = "none";
+        document.getElementById("localvideo").style.display = "none";
     });
 
     e.call.addEventListener(VoxImplant.CallEvents.Failed, (e) => {
