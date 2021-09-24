@@ -15,8 +15,10 @@
     <div id="incoming" style="display: none;">
         <button id="answer">Answer</button>
         <button id="decline">Decline</button>
-    </div>
-    <br>
+    </div><br>
+    <!-- works with callUser and callPSTN good -->
+
+    <!-- now let's do video -->
     <div id="remotevideo" style="display: none;"></div>
     <div id="localvideo" style="display: none;"></div>
 
@@ -71,7 +73,7 @@ const startcall = () => {
     document.getElementById("status").innerHTML = "Calling!";
 
     // subscribe to the events
-    call.addEventListener(VoxImplant.CallEvents.Connected, () => {
+    call.addEventListener(VoxImplant.CallEvents.Connected, (e) => {
         document.getElementById("status").innerHTML = "Call connected!";
         document.getElementById("endcall").style.display = "block";
         document.getElementById("remotevideo").style.display = "block";
@@ -133,7 +135,7 @@ sdk.on(VoxImplant.Events.IncomingCall, (e) => {
         e.call.decline();
     };
 
-    e.call.addEventListener(VoxImplant.CallEvents.Connected, () => {
+    e.call.addEventListener(VoxImplant.CallEvents.Connected, (e) => {
         document.getElementById("status").innerHTML = "Call connected!";
         document.getElementById("endcall").style.display = "block";
         document.getElementById("endcall").onclick = () => {
@@ -192,25 +194,25 @@ streamManager.on(VoxImplant.Hardware.HardwareEvents.MediaRendererUpdated, (e) =>
     //
 });
 
-// show remote video
+// // show remote video
 
-e.call.on(VoxImplant.CallEvents.EndpointAdded, onEndpointAdded);
-e.endpoint.on(VoxImplant.EndpointEvents.Removed, onEndpointRemoved);
+// e.call.on(VoxImplant.CallEvents.EndpointAdded, onEndpointAdded);
+// e.endpoint.on(VoxImplant.EndpointEvents.Removed, onEndpointRemoved);
 
-function onEndpointAdded(e) {
-    // const tmpl = `<div id="${e.endpoint.id}"></div>`;
-    // document.insertAdjacentHTML('beforeend', tmpl);
+// function onEndpointAdded(e) {
+//     // const tmpl = `<div id="${e.endpoint.id}"></div>`;
+//     // document.insertAdjacentHTML('beforeend', tmpl);
 
-    e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaAdded, (e) => {
-        const container = document.getElementById("remotevideo");
-        e.mediaRenderer.render(container);
-    });
-    e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaRemoved, (e) => {
-        //
-    });
-}
+//     e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaAdded, (e) => {
+//         const container = document.getElementById("remotevideo");
+//         e.mediaRenderer.render(container);
+//     });
+//     e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaRemoved, (e) => {
+//         //
+//     });
+// }
 
-function onEndpointRemoved(e) { }
+// function onEndpointRemoved(e) { }
 
     </script>
 </body>
