@@ -19,8 +19,8 @@
     <!-- works with callUser and callPSTN good -->
 
     <!-- now let's do video -->
-    <div id="remotevideo" style="display: none;"></div>
-    <div id="localvideo" style="display: none;"></div>
+    <div id="remotevideo" style="display: none;height: 300px;"></div>
+    <div id="localvideo" style="display: none;height: 300px;"></div>
 
     <script>
 
@@ -31,7 +31,7 @@ const sdk = VoxImplant.getInstance();
 const login = async () => {
     try {
         await sdk.init({ 
-            videoSupport: true,
+            showDebugInfo: true,
             localVideoContainerId: "localvideo", 
             remoteVideoContainerId: "remotevideo"
         });
