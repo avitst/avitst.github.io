@@ -124,6 +124,12 @@ sdk.on(VoxImplant.Events.IncomingCall, (e) => {
     document.getElementById("status").innerHTML = "Incoming call!";
 
     document.getElementById("answer").onclick = () => {
+        const callSettings = {
+        videoFlags: {
+            sendVideo: true,
+            receiveVideo: true
+            }
+        };
         e.call.answer(callSettings);
         document.getElementById("incoming").style.display = "none";
         document.getElementById("remotevideo").style.display = "block";
