@@ -19,8 +19,8 @@
     <!-- works with callUser and callPSTN good -->
 
     <!-- now let's do video -->
-    <div id="remotevideo" style="display: none;height: 300px;"></div>
-    <div id="localvideo" style="display: none;height: 300px;"></div>
+    <div id="remotevideo" style="display: none; width: 640px; height: 480px;"></div>
+    <div id="localvideo" style="display: none; width: 640px; height: 480;"></div>
 
     <script>
 
@@ -61,7 +61,7 @@ const startcall = () => {
     // prepare settings
     const callSettings = {
         number: document.getElementById("number").value,
-        videoFlags: {
+        video: {
             sendVideo: true,
             receiveVideo: true
         }
@@ -125,7 +125,7 @@ sdk.on(VoxImplant.Events.IncomingCall, (e) => {
 
     document.getElementById("answer").onclick = () => {
         const callSettings = {
-        videoFlags: {
+        video: {
             sendVideo: true,
             receiveVideo: true
             }
@@ -199,26 +199,6 @@ streamManager.on(VoxImplant.Hardware.HardwareEvents.MediaRendererAdded, (e) => {
 streamManager.on(VoxImplant.Hardware.HardwareEvents.MediaRendererUpdated, (e) => {
     //
 });
-
-// // show remote video
-
-// e.call.on(VoxImplant.CallEvents.EndpointAdded, onEndpointAdded);
-// e.endpoint.on(VoxImplant.EndpointEvents.Removed, onEndpointRemoved);
-
-// function onEndpointAdded(e) {
-//     // const tmpl = `<div id="${e.endpoint.id}"></div>`;
-//     // document.insertAdjacentHTML('beforeend', tmpl);
-
-//     e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaAdded, (e) => {
-//         const container = document.getElementById("remotevideo");
-//         e.mediaRenderer.render(container);
-//     });
-//     e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaRemoved, (e) => {
-//         //
-//     });
-// }
-
-// function onEndpointRemoved(e) { }
 
     </script>
 </body>
