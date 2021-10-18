@@ -163,8 +163,9 @@ sdk.on(VoxImplant.Events.IncomingCall, (e) => {
             e.endpoint.on(VoxImplant.EndpointEvents.RemoteMediaRemoved, (e) => {
                 //
             });
+            e.endpoint.on(VoxImplant.EndpointEvents.Removed, (e) => {});
         });
-        e.endpoint.on(VoxImplant.EndpointEvents.Removed, (e) => {});
+
 
     });
 
